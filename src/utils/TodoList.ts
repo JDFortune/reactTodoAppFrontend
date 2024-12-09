@@ -14,18 +14,18 @@ export default class TodoUtility {
     this.activeList = [];
   }
 
+  completedTodos() {
+    return this.todos.filter(todo => todo.completed);
+  }
+
   find(id: number | null): Todo | null {
     if (!id) return null;
 
     return this.activeList.find(todo => todo.id === id) || null;
   }
 
-  static formatDate(month: string, year: string) {
-    if (!month || !year) {
-      return 'No Due Date';
-    }
-
-    return `${month}/${year.slice(-2)}`;
+  filterCompletedTodos() {
+    return this.todos.filter(todo => todo.completed);
   }
 
   groupTodos() {
@@ -35,7 +35,7 @@ export default class TodoUtility {
     }
   }
 
-  groupByDate(status: 'all' | 'completed') {
+  private groupByDate(status: 'all' | 'completed') {
     let tempTodos: Todo[] = this.todos;
 
     if (status === 'completed') {
@@ -71,9 +71,6 @@ export default class TodoUtility {
     return todoDateGroupObj;
   }
 
-  filterCompletedTodos() {
-    return this.todos.filter(todo => todo.completed);
-  }
   parseList(list: Todo[]) {
     return list.map(this.parseTodo);
   }
@@ -105,28 +102,14 @@ export default class TodoUtility {
     }
   }
 
-  static sortListByCompletion = (todos: Todo[]) => {
-    const complete: Todo[] = [];
-    const incomplete: Todo[] = [];
-
-    todos.forEach((todo: Todo) => {
-      if (todo.completed) {
-        complete.push(todo);
-      } else {
-        incomplete.push(todo);
-      }
-    });
-
-    return [...incomplete, ...complete];
-  }
-
-  static parseResponseTodoObject = (todo: Todo): Todo => {
-    todo.day = todo.day.trim();
-    todo.month = todo.month.trim();
-    todo.year = todo.year.trim();
-    todo.description = todo.description.trim();
-
-    return todo;
+  static initialForm() {
+    return {
+      title: '',
+      day: '',
+      month: '',
+      year: '',
+      description: '',
+    }
   }
 
   static formDataFromTodo = (todo: Todo | null): ModalForm => {
@@ -141,20 +124,37 @@ export default class TodoUtility {
     }
   }
 
-  static initialForm() {
-    return {
-      title: '',
-      day: '',
-      month: '',
-      year: '',
-      description: '',
+  static formatDate(month: string, year: string) {
+    if (!month || !year) {
+      return 'No Due Date';
     }
+
+    return `${month}/${year.slice(-2)}`;
   }
 
-  completedTodos() {
-    return this.todos.filter(todo => todo.completed);
+  static parseResponseTodoObject = (todo: Todo): Todo => {
+    todo.day = todo.day.trim();
+    todo.month = todo.month.trim();
+    todo.year = todo.year.trim();
+    todo.description = todo.description.trim();
+
+    return todo;
   }
 
+  static sortListByCompletion = (todos: Todo[]) => {
+    const complete: Todo[] = [];
+    const incomplete: Todo[] = [];
+
+    todos.forEach((todo: Todo) => {
+      if (todo.completed) {
+        complete.push(todo);
+      } else {
+        incomplete.push(todo);
+      }
+    });
+
+    return [...incomplete, ...complete];
+  }
 
   private monthsSortedByYearAsKey(todos: Todo[], years: string[]) {
     const unformattedYears: YearsObj = {};
@@ -189,7 +189,3 @@ export default class TodoUtility {
     return [years, isNoDue] as [string[], boolean];
   }
 }
-// haven't Implmented.
-// todoGroupBaseData() {
-//   return this.todoGroups // date keys and lengths;
-// }
