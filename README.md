@@ -32,7 +32,7 @@ I only have a few event listeners set up in my app and they dispatch events to a
 
 ## Conclusions
 
-Ultimately, I changed up a lot of my code at the end to try and practice OOP with a project, to remove gratuitous calls to setState with multiple rerenderings, and to reduce the number of event listeners created by my application, but when I was showing it to my group, I felt like the decisions I made ultimately made it harder to explain and I'd like to write code that's more friendly to the developers I'm working with.
+Ultimately, I changed up a lot of my code at the end to try and practice OOP with a project, to remove gratuitous calls to setState with multiple rerenderings, and to reduce the number of event listeners created by my application, but when I was showing it to my group, I felt like the decisions I made might have made it harder to explain and I'd like to write code that's more friendly to the developers I'm working with.
 
 <!-- # React + TypeScript + Vite -->
 <!-- 
